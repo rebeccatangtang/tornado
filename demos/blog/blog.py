@@ -77,8 +77,10 @@ class Application(tornado.web.Application):
         try:
             self.db.get("SELECT COUNT(*) from entries;")
         except MySQLdb.ProgrammingError:
+            host, port = options.mysql_host.split(":")
             subprocess.check_call(['mysql',
-                                   '--host=' + options.mysql_host,
+                                   '--host=' + host,
+                                   '--port=' + port,
                                    '--database=' + options.mysql_database,
                                    '--user=' + options.mysql_user,
                                    '--password=' + options.mysql_password],
